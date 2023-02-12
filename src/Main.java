@@ -12,13 +12,14 @@ public class Main
                 "ADD PERSON(Rafał_Adamczuk)",
                 "ADD PERSON(Tomasz_Romański)",
                 "ADD PERSON(Mariusz_Wilczek)",
+                "ADD PERSON(Tomasz_Romański)",
                 "ADD PERSON(Zbigniew_Ratajczak)",
                 "PROCESS",
-                "LEAVE PERSON(Tomasz_Romański_2)",
-                "LEAVE PERSON(Mariusz_Wilczek)",
-                "PROCESS",
-                "PROCESS",
-                "PROCESS"
+                "LEAVE PERSON(Mariusz_Wilczek)"
+//                "PROCESS",
+//                "PROCESS",
+//                "PROCESS"
+
         );
 
         for (String command : commandList)
