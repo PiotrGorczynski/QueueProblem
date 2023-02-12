@@ -6,12 +6,13 @@ public class Main
     public static void main(String[] args)
     {
         QueueOfPeople<Person> queue = new QueueOfPeople<>(new ArrayDeque<>());
+        PersonCommandProcessor commandProcessor = new PersonCommandProcessor(queue);
         List<String> commandList = List.of(
                 "ADD PERSON(Tomasz_Romański)",
                 "ADD PERSON(Rafał_Adamczuk)",
                 "ADD PERSON(Tomasz_Romański)",
-                "ADD PERSON(Mariusz Wilczek)",
-                "ADD PERSON(Zbigniew Ratajczak)",
+                "ADD PERSON(Mariusz_Wilczek)",
+                "ADD PERSON(Zbigniew_Ratajczak)",
                 "PROCESS",
                 "LEAVE PERSON(Tomasz_Romański_2)",
                 "LEAVE PERSON(Mariusz_Wilczek)",
@@ -22,7 +23,7 @@ public class Main
 
         for (String command : commandList)
         {
-            queue.processCommand(command);
+            commandProcessor.processCommand(command);
         }
 
 

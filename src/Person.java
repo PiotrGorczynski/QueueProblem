@@ -16,7 +16,7 @@ public class Person
 
     private String generateId()
     {
-        return String.format("%s_%s_%s_",this.name,this.surname,this.counter);
+        return String.format("%s_%s_%s",this.name,this.surname,this.counter);
     }
 
     @Override

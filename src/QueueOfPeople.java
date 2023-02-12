@@ -1,46 +1,28 @@
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 
 public class QueueOfPeople<T>
 {
     private final Deque<T> queue;
+
+    private final Map<String, Integer> counterMap = new HashMap<>();
 
     public QueueOfPeople(Deque<T> queue)
     {
         this.queue = queue;
     }
 
-    public void processCommand(String command)
+    public void welcome(T item)
     {
-        if(command.contains("ADD PERSON"))
-        {
-            addPerson(command);
-        }
-        else if(command.contains("LEAVE"))
-        {
-            leavePerson(command);
-        }
-        else if(command.contains("PROCESS"))
-        {
-            processPerson(command);
-        }
-        else
-        {
-            throw new RuntimeException("Something is wrong with the command: " + command);
-        }
+        queue.offer(item);
+        System.out.println(queue);
     }
 
-    private void addPerson(String command)
+    public Integer getAndIncrementCounter(String key)
     {
-
-    }
-
-    private void leavePerson(String command)
-    {
-
-    }
-
-    private void processPerson(String command)
-    {
-
+        Integer tempCounter = counterMap.getOrDefault(key, 0);
+        counterMap.put(key,++tempCounter);
+        return tempCounter;
     }
 }
