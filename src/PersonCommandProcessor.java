@@ -10,10 +10,12 @@ public class PersonCommandProcessor
 
     public void processCommand(String command)
     {
+
         if(command.contains("ADD PERSON"))
         {
-            addPerson(command);
+            addPerson(command, command.contains("VIP"));
         }
+
         else if(command.contains("LEAVE PERSON"))
         {
             leavePerson(command);
@@ -28,11 +30,19 @@ public class PersonCommandProcessor
         }
     }
 
-    private void addPerson(String command)
+
+    private void addPerson(String command, boolean isVip)
     {
-        Person incomingPerson = createIncomingPerson(command);
         System.out.println(command);
-        queueOfPeople.welcome(incomingPerson);
+        Person incomingPerson = createIncomingPerson(command, isVip);
+        if(isVip)
+        {
+            queueOfPeople.welcomeVip(incomingPerson);
+        }
+        else
+        {
+            queueOfPeople.welcome(incomingPerson);
+        }
     }
 
 
@@ -45,7 +55,7 @@ public class PersonCommandProcessor
     private Person createLeavingPerson(String command)
     {
 
-        createIncomingPerson(command);
+        createLeavingPerson(command);
 
         String personId = command
                 .replace("LEAVE PERSON(","")
@@ -66,11 +76,11 @@ public class PersonCommandProcessor
         throw new IllegalArgumentException("Illegal argument: " + command);
     }
 
-    private Person createIncomingPerson(String command)
+    private Person createIncomingPerson(String command, Boolean isVip)
     {
         String personKey = command
                 .replace("ADD PERSON(","")
-                .replace(")","");
+                .replace(isVip? ",VIP" : ")","");
         String[] split = personKey
                 .split("_");
 
@@ -84,6 +94,7 @@ public class PersonCommandProcessor
             throw new IllegalArgumentException("Illegal argument: " + command);
         }
     }
+
 
     private void processPerson(String command)
     {

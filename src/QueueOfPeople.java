@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
@@ -5,20 +6,36 @@ import java.util.Map;
 public class QueueOfPeople<T>
 {
     private final Deque<T> queue;
+    private final Deque<T> queueVip;
 
     private final Map<String, Integer> counterMap = new HashMap<>();
 
-    public QueueOfPeople(Deque<T> queue)
+    public QueueOfPeople(Deque<T> queue, Deque<T> queueVip)
     {
         this.queue = queue;
+        this.queueVip = queueVip;
+    }
+
+    public void welcomeVip(T item)
+    {
+        boolean isAdded = queueVip.offer(item);
+        System.out.printf("%s came to the queue: %s%n ",item, isAdded);
+        printTotalQueue();
+
+    }
+
+    private void printTotalQueue(){
+        ArrayList<T> totalList = new ArrayList<>(queueVip);
+        totalList.addAll(queue);
+        System.out.println(totalList);
+        System.out.println();
     }
 
     public void welcome(T item)
     {
         boolean isAdded = queue.offer(item);
         System.out.printf("%s came to the queue: %s%n ",item, isAdded);
-        System.out.println(queue);
-        System.out.println();
+        printTotalQueue();
     }
 
     public Integer getAndIncrementCounter(String key)
@@ -30,28 +47,47 @@ public class QueueOfPeople<T>
 
     public void enter()
     {
+        if(queueVip.isEmpty())
+        {
+            System.out.println("No items in the VIP queue.");
+        }
+
+        else
+        {
+            handleEnter(queueVip);
+            return;
+        }
+
         if(queue.isEmpty())
         {
             System.out.println("No items in the queue.");
             return;
         }
-        else
-        {
-            T itemEntered = queue.poll();
-            System.out.printf("Processing queue %s arrived at the store%n",itemEntered);
-            System.out.println(queue);
-            System.out.println();
-        }
+
+            handleEnter(queue);
+    }
+
+    private void handleEnter(Deque<T> que)
+    {
+        T itemEntered = que.poll();
+        System.out.printf("Processing queue %s arrived at the store%n",itemEntered);
+        printTotalQueue();
     }
 
     public void leave(T item)
     {
-        if(queue.contains(item))
+        if(queueVip.contains(item))
+        {
+            queueVip.remove(item);
+            System.out.printf("Leaving vip queue: %s%n",item);
+            printTotalQueue();
+        }
+
+        else if(queue.contains(item))
         {
             queue.remove(item);
             System.out.printf("Leaving queue: %s%n",item);
-            System.out.println(queue);
-            System.out.println();
+            printTotalQueue();
         }
         else
         {
